@@ -21,8 +21,8 @@ module.exports = {
           var newIt = new It({
             snippet: item.snippet,
             method: item.method,
-            ans: item.answer
-            description: item.description || 'test description'
+            ans: item.answer,
+            description: item.description
           });
           return newIt;
         });
