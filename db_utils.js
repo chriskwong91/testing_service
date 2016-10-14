@@ -22,7 +22,7 @@ module.exports = {
           var newIt = new It({
             snippet: item.snippet,
             method: item.method,
-            description: item.description,
+            // description: item.description,
             ans: item.answer
           });
           return newIt;

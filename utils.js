@@ -5,8 +5,12 @@ var expect = Chai.expect;
 var should = Chai.should;
 var request = require('request-promise');
 
+var db = require('./database/config.js');
+var dbTest = require('./database/models/testing.js');
+
 var methodMap = require('./mappedMethod.js');
-var db_utils = require('./db_utils.js');
+// var db_utils = require('./db_utils.js');
+// console.log(db_utils);
 
 var wrapper = function(source_code, item){
   eval(source_code);
@@ -15,8 +19,24 @@ var wrapper = function(source_code, item){
 
 
 module.exports = {
+  getTest: function(req, res, callback) {
+    const name = req.body.name;
+    dbTest.findOne({question_name: name}).exec((err, found) => {
+      if (err) {
+        res.status(500).json({ error: err });
+      }
+      if (found) {
+        callback(found)
+      } else {
+        res.send({err: 'Test does not exist!'});
+      }
+    });
+  },
+
   testSuite: function(req, res){
-    db_utils.getTest(req, res, (entry) => {
+    console.log(this.getTest);
+    // console.log(db_utils.getTest);
+    this.getTest(req, res, (entry) => {
       var mochaInstance = new Mocha();
       var dArr = JSON.parse(entry.dArr);
       var passedTests = [],
